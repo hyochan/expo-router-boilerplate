@@ -14,13 +14,10 @@ import type {User} from '../src/types';
 const Container = styled.View`
   flex: 1;
   align-self: stretch;
-  overflow: scroll;
-  background-color: ${({theme}) => theme.bg.basic};
 
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow: hidden;
 `;
 
 const ButtonWrapper = styled.View`
