@@ -6,7 +6,6 @@ import type {IconName} from 'dooboo-ui';
 import {Body1} from './Typography';
 import type {StyleProp, ViewStyle} from 'react-native';
 import {useWindowDimensions} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const ContentWrapper = styled.View`
   border-color: ${({theme}) => theme.text.basic};
@@ -21,11 +20,12 @@ const ContentWrapper = styled.View`
   justify-content: center;
   align-items: center;
 
-  /* For desktop and tablet*/
+  /* For desktop and tablet */
   ${({theme: {isMobile}}) =>
     !isMobile &&
     css`
       height: 100%;
+      width: 160px;
       font-size: 18px;
       border-right-width: 1px;
       border-top-width: 0px;
@@ -45,44 +45,68 @@ const ContentWrapper = styled.View`
     `}
 `;
 
+const NavHeader = styled.View`
+  width: 100%;
+  height: 48px;
+  padding-left: 24px;
+
+  flex-direction: row;
+  align-items: center;
+
+  ${({theme: {isTablet}}) =>
+    isTablet &&
+    css`
+      padding-left: 0px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    `};
+`;
+
 const NavWrapper = styled.View`
   padding: 24px 30px 24px 30px;
   width: 100%;
+
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
-  ${({theme: {isMobile}}) =>
-    !isMobile &&
+  ${({theme: {isDesktop}}) =>
+    isDesktop &&
     css`
       padding: 24px 0px 0px 0px;
+      margin-left: 24px;
+
       flex-direction: column;
       align-items: flex-start;
     `};
-`;
 
-const NavHeader = styled.View`
-  ${({theme: {isMobile}}) =>
-    !isMobile &&
+  ${({theme: {isTablet}}) =>
+    isTablet &&
     css`
-      flex-direction: row;
-      align-items: center;
+      padding: 24px 0px 0px 0px;
 
-      padding: 0px 48px 0px 16px;
-      height: 48px;
+      flex-direction: column;
+      align-items: center;
     `};
 `;
 
 const StyledLink = styled(Link)<{nthChild?: number}>`
   font-size: 14px;
-
   color: ${({theme}) => theme.text.basic};
-  ${({theme: {isMobile}}) =>
-    !isMobile &&
+
+  ${({theme: {isDesktop}}) =>
+    isDesktop &&
     css`
       margin-bottom: 30px;
       font-size: 18px;
-      padding: 0px 48px 0px 16px;
+    `};
+
+  ${({theme: {isTablet}}) =>
+    isTablet &&
+    css`
+      margin-bottom: 30px;
+      font-size: 18px;
     `};
 `;
 
@@ -90,7 +114,6 @@ export default function RootNavigator(): React.ReactElement {
   const {
     media: {isMobile, isDesktop},
   } = useDooboo();
-  const insets = useSafeAreaInsets();
   const {height: windowHeight} = useWindowDimensions();
 
   const data: Array<{route: string; iconName: IconName; text: string}> =
@@ -120,8 +143,8 @@ export default function RootNavigator(): React.ReactElement {
     }) => {
       return (
         <StyledLink href={href} style={style} nthChild={nthChild}>
-          <Icon name={iconName} size={16} style={{marginRight: 8}} />
-          {isDesktop && <Body1>{content}</Body1>}
+          <Icon name={iconName} size={16} />
+          {isDesktop && <Body1 style={{marginLeft: 8}}>{content}</Body1>}
         </StyledLink>
       );
     },
@@ -132,17 +155,12 @@ export default function RootNavigator(): React.ReactElement {
     <ContentWrapper>
       {!isMobile ? (
         <NavHeader>
-          <Icon name="Dooboo" size={16} style={{marginRight: 8}} />
-          {isDesktop && <Body1>dooboo</Body1>}
+          <Icon name="Dooboo" size={16} />
+          {isDesktop && <Body1 style={{marginLeft: 8}}>dooboo</Body1>}
         </NavHeader>
       ) : null}
-      <NavWrapper
-        style={
-          isMobile
-            ? {paddingBottom: Math.max(insets.bottom, 24)}
-            : {height: windowHeight - 48}
-        }
-      >
+
+      <NavWrapper style={!isMobile && {height: windowHeight - 48}}>
         {data.map(({route, iconName, text}, i) => (
           <SectionItem
             key={`${route}-${i}`}

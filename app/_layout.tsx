@@ -16,6 +16,9 @@ import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import StatusBarBrightness from 'dooboo-ui/uis/StatusbarBrightness';
+import type {StyleProp, ViewStyle} from 'react-native';
+import {Platform} from 'react-native';
+import {useDooboo} from 'dooboo-ui';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,9 +48,25 @@ function App(): React.ReactElement | null {
     IcoMoon: require('dooboo-ui/uis/Icon/doobooui.ttf'),
   });
 
+  const onIos = Platform.OS === 'ios';
+  const onMobile = Platform.OS === 'android' || Platform.OS === 'ios';
+
+  const {
+    media: {isPortrait},
+  } = useDooboo();
+
   const insets = useSafeAreaInsets();
   const [assets] = useAssets(Icons);
   const [appIsReady, setAppIsReady] = useState(false);
+
+  const safeAreaStyles: StyleProp<ViewStyle> = [
+    onMobile && {paddingTop: Math.max(insets.top, 20)},
+    onMobile && isPortrait && {paddingBottom: Math.min(insets.bottom, 10)},
+    !isPortrait &&
+      onIos && {
+        paddingLeft: Math.max(insets.left, 8),
+      },
+  ];
 
   useEffect(() => {
     const prepare = async (): Promise<void> => {
@@ -87,10 +106,7 @@ function App(): React.ReactElement | null {
     <SafeAreaProvider>
       <Navigator router={TabRouter} initialRouteName="/">
         <StatusBarBrightness />
-        <Container
-          onLayout={onLayoutRootView}
-          style={{paddingTop: Math.max(insets.top, 20)}}
-        >
+        <Container onLayout={onLayoutRootView} style={safeAreaStyles}>
           <NavigatorWrapper>
             <RootNavigator />
           </NavigatorWrapper>
