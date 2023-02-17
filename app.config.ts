@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import type {ConfigContext, ExpoConfig} from '@expo/config';
 
 export default ({config}: ConfigContext): ExpoConfig => ({
@@ -15,14 +16,22 @@ export default ({config}: ConfigContext): ExpoConfig => ({
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
   },
-  web: {
-    bundler: 'metro',
+  extra: {
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    SUPABASE_API_KEY: process.env.SUPABASE_API_KEY,
+    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
+    AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
+    AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+    AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
   },
   updates: {
     fallbackToCacheTimeout: 0,
   },
   assetBundlePatterns: ['**/*'],
   userInterfaceStyle: 'automatic',
+  web: {
+    bundler: 'metro',
+  },
   ios: {
     supportsTablet: true,
     infoPlist: {
@@ -32,5 +41,6 @@ export default ({config}: ConfigContext): ExpoConfig => ({
   android: {
     userInterfaceStyle: 'automatic',
   },
+  scheme: 'doobooexporouter',
   description: 'Starter project from dooboo-cli.',
 });

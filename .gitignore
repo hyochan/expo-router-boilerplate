@@ -24,3 +24,10 @@ yarn-error*
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# build artifacts
+/android
+/ios
+
+# env
+.env

@@ -4,8 +4,6 @@ import type {FC} from 'react';
 
 export interface User {
   displayName: string;
-  age: number;
-  job: string;
 }
 
 interface IconProps {

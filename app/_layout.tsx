@@ -2,7 +2,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import {useCallback, useEffect, useState} from 'react';
 import Icons from '../src/utils/Icons';
 import RootProvider from '../src/providers';
-import {Slot} from 'expo-router';
+import {Slot, useRouter, useSegments} from 'expo-router';
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {useAssets} from 'expo-asset';
 import {useFonts} from 'expo-font';
@@ -13,7 +13,7 @@ import {
 import StatusBarBrightness from 'dooboo-ui/uis/StatusbarBrightness';
 import type {StyleProp, ViewStyle} from 'react-native';
 import {Platform} from 'react-native';
-import {useDooboo} from 'dooboo-ui';
+import {useAppContext} from '../src/providers/AppProvider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,17 +22,19 @@ function App(): React.ReactElement | null {
     IcoMoon: require('dooboo-ui/uis/Icon/doobooui.ttf'),
   });
   const onMobile = Platform.OS === 'android' || Platform.OS === 'ios';
+  const router = useRouter();
+  const segments = useSegments();
 
   const {
-    media: {isPortrait},
-  } = useDooboo();
+    state: {user},
+  } = useAppContext();
+
   const insets = useSafeAreaInsets();
   const [assets] = useAssets(Icons);
   const [appIsReady, setAppIsReady] = useState(false);
 
   const safeAreaStyles: StyleProp<ViewStyle> = [
     onMobile && {paddingTop: Math.max(insets.top, 20)},
-    onMobile && isPortrait && {paddingBottom: Math.min(insets.bottom, 10)},
   ];
 
   useEffect(() => {
@@ -64,6 +66,18 @@ function App(): React.ReactElement | null {
       await SplashScreen.hideAsync();
     }
   }, [appIsReady]);
+
+  useEffect(() => {
+    if (!appIsReady) {
+      return;
+    }
+
+    const inAuthGroup = segments[0] === '(auth)';
+
+    if (user && inAuthGroup) {
+      router.replace('/');
+    }
+  }, [user, segments, router, appIsReady]);
 
   if (!appIsReady) {
     return null;

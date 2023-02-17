@@ -8,7 +8,7 @@ const Container = styled.View`
 
   padding: 0px 20px 0px 20px;
   height: 48px;
-  border-bottom-width: 1px;
+  border-bottom-width: 0.2px;
   border-bottom-color: ${({theme}) => theme.text.basic};
 `;
 
