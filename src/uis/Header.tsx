@@ -1,5 +1,6 @@
 import styled from '@emotion/native';
 import type {ReactElement} from 'react';
+import {getString} from '../../STRINGS';
 import {Heading1} from './Typography';
 
 const Container = styled.View`
@@ -14,7 +15,7 @@ const Container = styled.View`
 export default function Header(): ReactElement {
   return (
     <Container>
-      <Heading1>Welcome to expo router Demo!</Heading1>
+      <Heading1>{getString('TITLE')}</Heading1>
     </Container>
   );
 }

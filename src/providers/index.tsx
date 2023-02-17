@@ -1,4 +1,6 @@
+import '@expo/match-media';
 import {AppProvider} from './AppProvider';
+import type {ReactNode} from 'react';
 import React from 'react';
 import {DoobooProvider} from 'dooboo-ui';
 import type {ThemeType} from 'dooboo-ui';
@@ -6,7 +8,7 @@ import {theme} from '../theme';
 
 interface Props {
   initialThemeType?: ThemeType;
-  children?: React.ReactElement;
+  children?: ReactNode;
 }
 
 // Add providers here
