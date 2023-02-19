@@ -6,7 +6,7 @@ import type {ReactElement} from 'react';
 const Container = styled.View`
   flex: 1;
   align-self: stretch;
-  background-color: ${({theme}) => theme.bg.default};
+  background-color: ${({theme}) => theme.bg.basic};
 `;
 
 export default function AuthLayout(): ReactElement {

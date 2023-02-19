@@ -12,7 +12,7 @@ export const unstable_settings = {
 const Container = styled.View`
   flex: 1;
   align-self: stretch;
-  background-color: ${({theme}) => theme.bg.default};
+  background-color: ${({theme}) => theme.bg.basic};
 
   flex-direction: column-reverse;
 
