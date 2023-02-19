@@ -1,16 +1,11 @@
-import '@expo/match-media';
 import * as SplashScreen from 'expo-splash-screen';
 import {useCallback, useEffect, useState} from 'react';
 import Icons from '../src/utils/Icons';
 import RootProvider from '../src/providers';
-import {Slot, Navigator} from 'expo-router';
+import {Slot, useRouter, useSegments} from 'expo-router';
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {useAssets} from 'expo-asset';
 import {useFonts} from 'expo-font';
-import styled, {css} from '@emotion/native';
-import RootNavigator from '../src/uis/RootNavigator';
-import {TabRouter} from '@react-navigation/native';
-import Header from '../src/uis/Header';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -18,42 +13,21 @@ import {
 import StatusBarBrightness from 'dooboo-ui/uis/StatusbarBrightness';
 import type {StyleProp, ViewStyle} from 'react-native';
 import {Platform} from 'react-native';
-import {useDooboo} from 'dooboo-ui';
+import {useAppContext} from '../src/providers/AppProvider';
 
 SplashScreen.preventAutoHideAsync();
-
-const Container = styled.View`
-  flex: 1;
-  align-self: stretch;
-  background-color: ${({theme}) => theme.bg.default};
-
-  flex-direction: column-reverse;
-
-  ${({theme: {isMobile}}) =>
-    !isMobile &&
-    css`
-      flex-direction: row;
-    `}
-`;
-
-const NavigatorWrapper = styled.View``;
-
-const Contents = styled.View`
-  flex: 1;
-  align-self: stretch;
-`;
 
 function App(): React.ReactElement | null {
   const [fontsLoaded] = useFonts({
     IcoMoon: require('dooboo-ui/uis/Icon/doobooui.ttf'),
   });
-
-  const onIos = Platform.OS === 'ios';
   const onMobile = Platform.OS === 'android' || Platform.OS === 'ios';
+  const router = useRouter();
+  const segments = useSegments();
 
   const {
-    media: {isPortrait},
-  } = useDooboo();
+    state: {user},
+  } = useAppContext();
 
   const insets = useSafeAreaInsets();
   const [assets] = useAssets(Icons);
@@ -61,11 +35,6 @@ function App(): React.ReactElement | null {
 
   const safeAreaStyles: StyleProp<ViewStyle> = [
     onMobile && {paddingTop: Math.max(insets.top, 20)},
-    onMobile && isPortrait && {paddingBottom: Math.min(insets.bottom, 10)},
-    !isPortrait &&
-      onIos && {
-        paddingLeft: Math.max(insets.left, 8),
-      },
   ];
 
   useEffect(() => {
@@ -98,24 +67,26 @@ function App(): React.ReactElement | null {
     }
   }, [appIsReady]);
 
+  useEffect(() => {
+    if (!appIsReady) {
+      return;
+    }
+
+    const inAuthGroup = segments[0] === '(auth)';
+
+    if (user && inAuthGroup) {
+      router.replace('/');
+    }
+  }, [user, segments, router, appIsReady]);
+
   if (!appIsReady) {
     return null;
   }
 
   return (
-    <SafeAreaProvider>
-      <Navigator router={TabRouter} initialRouteName="/">
-        <StatusBarBrightness />
-        <Container onLayout={onLayoutRootView} style={safeAreaStyles}>
-          <NavigatorWrapper>
-            <RootNavigator />
-          </NavigatorWrapper>
-          <Contents>
-            <Header />
-            <Slot />
-          </Contents>
-        </Container>
-      </Navigator>
+    <SafeAreaProvider onLayout={onLayoutRootView} style={safeAreaStyles}>
+      <StatusBarBrightness />
+      <Slot />
     </SafeAreaProvider>
   );
 }

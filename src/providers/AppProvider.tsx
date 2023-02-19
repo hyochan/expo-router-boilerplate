@@ -1,4 +1,5 @@
-import React, {useReducer} from 'react';
+import type {ReactNode} from 'react';
+import {useReducer} from 'react';
 
 import type {User} from '../types';
 import createCtx from '../utils/createCtx';
@@ -42,7 +43,7 @@ interface GetStateAction {
 type Action = SetUserAction | ResetUserAction | GetStateAction;
 
 interface Props {
-  children?: React.ReactElement;
+  children?: ReactNode;
 }
 
 type Reducer = (state: State, action: Action) => State;
