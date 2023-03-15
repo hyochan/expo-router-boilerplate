@@ -4659,13 +4659,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"absolute-path@npm:^0.0.0":
-  version: 0.0.0
-  resolution: "absolute-path@npm:0.0.0"
-  checksum: f707356265b46adb3a2f2c6505b0058f7786d3d2f6edc2aacfb8af6ba66d8d86166a281ed45081559579df2bb9977b2fe9df0925548a2f1b4d0d4d2b3eb062d2
-  languageName: node
-  linkType: hard
-
 "accepts@npm:^1.3.7, accepts@npm:^1.3.8, accepts@npm:~1.3.4, accepts@npm:~1.3.5, accepts@npm:~1.3.7, accepts@npm:~1.3.8":
   version: 1.3.8
   resolution: "accepts@npm:1.3.8"
@@ -13982,12 +13975,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"metro-resolver@npm:0.73.7":
-  version: 0.73.7
-  resolution: "metro-resolver@npm:0.73.7"
-  dependencies:
-    absolute-path: ^0.0.0
-  checksum: 97269385e4f6b4263e2af98409ecbbacec1637192c0fc4cac8165c5738079eec00b4724adf569c8a17d3624ec75dd8dee2d6ec6815ba54db1197c137b0094bf7
+"metro-resolver@npm:0.76.0":
+  version: 0.76.0
+  resolution: "metro-resolver@npm:0.76.0"
+  checksum: 3e26368ceca153024be622a195f5674b6457f201b9e3bd94faca5ef2098897df3fa8db8afc7ffd30958b7ab3b69cf8e0b1b58b2cc3fc1190e6dbb17d9622474d
   languageName: node
   linkType: hard
 
