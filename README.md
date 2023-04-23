@@ -1,3 +1,7 @@
+# :warning: Archived
+
+Current boilerplate is archived and maintained in [expo-router-sample](https://github.com/crossplatformkorea/expo-router-sample).
+
 # Expo typescript starter with expo router
 
 [![CI](https://github.com/dooboolab/dooboo-expo-router/actions/workflows/ci.yml/badge.svg)](https://github.com/dooboolab/dooboo-expo-router/actions/workflows/ci.yml)
