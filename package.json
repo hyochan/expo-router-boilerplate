@@ -95,7 +95,7 @@
     "typescript-styled-plugin": "^0.18.2"
   },
   "resolutions": {
-    "metro": "0.76.0",
+    "metro": "0.76.2",
     "metro-resolver": "0.76.0"
   },
   "importSort": {
